@@ -46,7 +46,6 @@ const AssignComponent = () => {
         navigate('/dashboard');
       }, 2000);
     } catch (error) {
-      console.error('Error assigning component:', error);
       alert(handleApiError(error));
     }
   };
@@ -56,28 +55,26 @@ const AssignComponent = () => {
       <h2>Assign Component to Asset</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="selectAsset">Select Asset:</label>
-        <select id="selectAsset" value={selectedAsset} onChange={(e) => setSelectedAsset(e.target.value)} required>
+        <select id="selectAsset" value={selectedAsset} onChange={({ target: { value } }) => setSelectedAsset(value)} required>
           <option value="">-- Select Asset --</option>
-          {assets.map(asset => (
-            <option key={asset.id} value={asset.id}>
-              {asset.name} ({asset.category})
+          {assets.map(({ id, name, category }) => (
+            <option key={id} value={id}>
+              {name} ({category})
             </option>
           ))}
         </select>
 
         <label htmlFor="selectComponent">Select Component:</label>
-        <select id="selectComponent" value={selectedComponent} onChange={(e) => setSelectedComponent(e.target.value)} required>
+        <select id="selectComponent" value={selectedComponent} onChange={({ target: { value } }) => setSelectedComponent(value)} required>
           <option value="">-- Select Component --</option>
-          {components.map(component => (
-            <option key={component.id} value={component.id}>
-              {component.name} ({component.category}) - {component.manufacturer} | Serial: {component.serialNumber} | Warranty: {component.warrantyEnd}
+          {components.map(({ id, name, category, manufacturer, serialNumber, warrantyEnd }) => (
+            <option key={id} value={id}>
+              {name} ({category}) - {manufacturer} | Serial: {serialNumber} | Warranty: {warrantyEnd}
             </option>
           ))}
         </select>
-
         <button type="submit">Assign Component</button>
       </form>
-
       {success && <p className="success-message">Component assigned successfully! Redirecting...</p>}
     </div>
   );

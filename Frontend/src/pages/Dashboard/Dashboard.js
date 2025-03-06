@@ -36,14 +36,10 @@ function Dashboard() {
   };
 
   const toggleExpand = (assetId) => {
-    if (expanded === assetId) {
-      setExpanded(null);
-    } else {
-      setExpanded(assetId);
-      const asset = assets.find(a => a.id === assetId);
-      if (!asset.components) {
-        fetchComponents(assetId);
-      }
+    setExpanded(expanded === assetId ? null : assetId);
+    const asset = assets.find(({ id }) => id === assetId);
+    if (asset && !asset.components) {
+      fetchComponents(assetId);
     }
   };
 
@@ -66,32 +62,31 @@ function Dashboard() {
           </tr>
         </thead>
         <tbody>
-          {assets.map(asset => (
-            <React.Fragment key={asset.id}>
-              <tr>
-                <td>{asset.name}</td>
-                <td>{asset.category}</td>
-                <td>{asset.description}</td>
-                <td>{asset.purchaseDate}</td>
-                <td>{asset.status}</td>
-                <td>{asset.assignedTo}</td>
+          {assets.map(({ id, name, category, description, purchaseDate, status, assignedTo, components }) => (
+            <>
+              <tr key={id}>
+                <td>{name}</td>
+                <td>{category}</td>
+                <td>{description}</td>
+                <td>{purchaseDate}</td>
+                <td>{status}</td>
+                <td>{assignedTo}</td>
                 <td>
-                  <button className="toggle-button" onClick={() => toggleExpand(asset.id)}>
-                    {expanded === asset.id ? 'Collapse' : 'Expand'}
+                  <button className="toggle-button" onClick={() => toggleExpand(id)}>
+                    {expanded === id ? 'Collapse' : 'Expand'}
                   </button>
-                  <Link className="details-link" to={`/asset/${asset.id}`}>Details</Link>
+                  <Link className="details-link" to={`/asset/${id}`}>Details</Link>
                 </td>
               </tr>
-              {expanded === asset.id && (
+              {expanded === id && (
                 <tr className="expanded-row">
                   <td colSpan="7">
                     <strong>Components:</strong>
                     <ul>
-                      {asset.components && asset.components.length > 0 ? (
-                        asset.components.map((comp, index) => (
+                      {components?.length > 0 ? (
+                        components.map(({ name, category, manufacturer, serialNumber, warrantyEnd }, index) => (
                           <li key={index}>
-                            {comp.name} ({comp.category}), {comp.manufacturer} - 
-                            Serial: {comp.serialNumber}, Warranty: {comp.warrantyEnd}
+                            {name} ({category}), {manufacturer} - Serial: {serialNumber}, Warranty: {warrantyEnd}
                           </li>
                         ))
                       ) : (
@@ -101,7 +96,7 @@ function Dashboard() {
                   </td>
                 </tr>
               )}
-            </React.Fragment>
+            </>
           ))}
         </tbody>
       </table>

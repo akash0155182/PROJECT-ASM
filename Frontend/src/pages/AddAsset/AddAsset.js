@@ -5,83 +5,48 @@ import { handleApiError } from '../../utils/helpers';
 import './AddAsset.css';
 
 const AddAsset = () => {
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [purchaseDate, setPurchaseDate] = useState('');
-  const [status, setStatus] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    category: '',
+    description: '',
+    purchaseDate: '',
+    status: '',
+    assignedTo: '',
+  });
+
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newAsset = { name, category, description, purchaseDate, status, assignedTo };
 
     try {
-      await addAsset(newAsset);
+      await addAsset(formData);
       setSuccess(true);
+      setFormData({ name: '', category: '', description: '', purchaseDate: '', status: '', assignedTo: '' });
 
-      // Reset form fields
-      setName('');
-      setCategory('');
-      setDescription('');
-      setPurchaseDate('');
-      setStatus('');
-      setAssignedTo('');
-
-      // Redirect to dashboard after 2 seconds
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000);
+      setTimeout(() => navigate('/dashboard'), 2000);
     } catch (error) {
       alert(handleApiError(error));
     }
   };
 
+  const { name, category, description, purchaseDate, status, assignedTo } = formData;
+
   return (
     <div className="add-asset-container">
       <h2>Add New Asset</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Asset Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        <input
-          type="date"
-          value={purchaseDate}
-          onChange={(e) => setPurchaseDate(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Assigned To"
-          value={assignedTo}
-          onChange={(e) => setAssignedTo(e.target.value)}
-        />
+        <input type="text" name="name" placeholder="Asset Name" value={name} onChange={handleChange} required />
+        <input type="text" name="category" placeholder="Category" value={category} onChange={handleChange} required />
+        <textarea name="description" placeholder="Description" value={description} onChange={handleChange} required />
+        <input type="date" name="purchaseDate" value={purchaseDate} onChange={handleChange} required />
+        <input type="text" name="status" placeholder="Status" value={status} onChange={handleChange} required />
+        <input type="text" name="assignedTo" placeholder="Assigned To" value={assignedTo} onChange={handleChange} />
         <button type="submit">Add Asset</button>
       </form>
       {success && <p className="success-message">Asset added successfully! Redirecting...</p>}

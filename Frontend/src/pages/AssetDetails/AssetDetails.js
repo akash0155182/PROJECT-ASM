@@ -51,17 +51,16 @@ const AssetDetails = () => {
       <p><strong>Status:</strong> {asset.status}</p>
       <p><strong>Assigned To:</strong> {asset.assignedTo}</p>
 
-      <h3>Components:</h3>
       {components.length > 0 ? (
         <ul className="components-list">
-          {components.map((comp, index) => (
+          {components.map(({ name, type, manufacturer, serialNumber, warrantyEnd }, index) => (
             <li key={index}>
-              <strong className="component-name">{comp.name}</strong>
+              <strong className="component-name">{name}</strong>
               <ul>
-                <li>Category: <span className="component-category">{comp.type}</span></li>
-                <li>Manufacturer: <span className="component-manufacturer">{comp.manufacturer}</span></li>
-                <li>Serial Number: <span className="component-serial">{comp.serialNumber}</span></li>
-                <li>Warranty: <span className="component-warranty">{comp.warrantyEnd}</span></li>
+                <li>Category: <span className="component-category">{type}</span></li>
+                <li>Manufacturer: <span className="component-manufacturer">{manufacturer}</span></li>
+                <li>Serial Number: <span className="component-serial">{serialNumber}</span></li>
+                <li>Warranty: <span className="component-warranty">{warrantyEnd}</span></li>
               </ul>
             </li>
           ))}
@@ -69,7 +68,6 @@ const AssetDetails = () => {
       ) : (
         <p>No components assigned.</p>
       )}
-
       <Link className="back-link" to="/dashboard">Back to Dashboard</Link>
     </div>
   );
