@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './AssignComponent.css';
+import { useNavigate } from 'react-router-dom';
 import { getAllAssets, assignComponentToAsset } from '../../api/assetApi';
 import { getAllComponents } from '../../api/componentApi';
 import { handleApiError } from '../../utils/helpers';
@@ -15,22 +15,22 @@ const AssignComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAssetsAndComponents = async () => {
       try {
         const assetsData = await getAllAssets();
         const componentsData = await getAllComponents();
 
         setAssets(
-          assetsData.map((asset) => ({
-            id: asset.id,
-            label: `${asset.name} (${asset.category})`,
+          assetsData.map(({ id, name, category }) => ({
+            id,
+            label: `${name} (${category})`,
           }))
         );
 
         setComponents(
-          componentsData.map((component) => ({
-            id: component.id,
-            label: `${component.name} (${component.category}) - ${component.manufacturer} | Serial: ${component.serialNumber} | Warranty: ${component.warrantyEnd}`,
+          componentsData.map(({ id, name, category, manufacturer, serialNumber, warrantyEnd }) => ({
+            id,
+            label: `${name} (${category}) - ${manufacturer} | Serial: ${serialNumber} | Warranty: ${warrantyEnd}`,
           }))
         );
       } catch (error) {
@@ -38,12 +38,12 @@ const AssignComponent = () => {
       }
     };
 
-    fetchData();
+    fetchAssetsAndComponents();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!selectedAsset || !selectedComponent) {
       alert('Please select both an asset and a component.');
       return;
@@ -66,18 +66,18 @@ const AssignComponent = () => {
       <h2>Assign Component to Asset</h2>
       <form onSubmit={handleSubmit}>
         <Dropdown
-          label="Select Asset"
+          label="Select Asset:"
+          options={assets}
           value={selectedAsset}
           onChange={(e) => setSelectedAsset(e.target.value)}
-          options={assets}
           placeholder="-- Select Asset --"
           required
         />
         <Dropdown
-          label="Select Component"
+          label="Select Component:"
+          options={components}
           value={selectedComponent}
           onChange={(e) => setSelectedComponent(e.target.value)}
-          options={components}
           placeholder="-- Select Component --"
           required
         />
