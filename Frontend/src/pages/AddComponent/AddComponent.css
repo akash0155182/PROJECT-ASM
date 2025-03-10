@@ -9,7 +9,7 @@
 }
 
 .add-component-container h2 {
-  color: #ff5a7a;
+  color: #007bff;
   margin-bottom: 15px;
 }
 
@@ -18,30 +18,51 @@
   flex-direction: column;
 }
 
-.add-component-container input {
-  padding: 8px;
+.add-component-container input,
+.add-component-container textarea {
+  padding: 10px;
   margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
+  width: calc(100% - 20px);
+}
+
+.add-component-container textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.add-component-container input:focus,
+.add-component-container textarea:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 .add-component-container button {
-  background: #ff5a7a;
+  background: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 8px;
+  padding: 10px;
   font-size: 16px;
   cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s ease;
 }
 
 .add-component-container button:hover {
-  background: #e04d6c;
+  background: #0056b3;
 }
 
 .success-message {
   color: #28a745;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #dc3545;
   margin-top: 10px;
   font-weight: bold;
 }

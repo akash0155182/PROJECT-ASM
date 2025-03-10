@@ -5,13 +5,19 @@ import { getComponentsByAssetId } from '../../api/componentApi';
 import { handleApiError } from '../../utils/helpers';
 import './Dashboard.css';
 
+const HEADERS = {
+  name: 'Name',
+  category: 'Category',
+  description: 'Description',
+  purchaseDate: 'Purchase Date',
+  status: 'Status',
+  assignedTo: 'Assigned To',
+  actions: 'Actions',
+};
+
 function Dashboard() {
   const [assets, setAssets] = useState([]);
   const [expanded, setExpanded] = useState(null);
-
-  useEffect(() => {
-    fetchAssets();
-  }, []);
 
   const fetchAssets = async () => {
     try {
@@ -34,11 +40,16 @@ function Dashboard() {
       alert(handleApiError(error));
     }
   };
+  
+  useEffect(() => {
+    fetchAssets();
+  }, []);
 
   const toggleExpand = (assetId) => {
-    setExpanded(expanded === assetId ? null : assetId);
-    const asset = assets.find(({ id }) => id === assetId);
-    if (asset && !asset.components) {
+    if (expanded === assetId) {
+      setExpanded(null); 
+    } else {
+      setExpanded(assetId);
       fetchComponents(assetId);
     }
   };
@@ -52,13 +63,9 @@ function Dashboard() {
       <table className="asset-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Purchase Date</th>
-            <th>Status</th>
-            <th>Assigned To</th>
-            <th>Actions</th>
+          {Object.values(HEADERS).map((header) => (
+              <th key={header}>{header}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -80,7 +87,7 @@ function Dashboard() {
               </tr>
               {expanded === id && (
                 <tr className="expanded-row">
-                  <td colSpan="7">
+                  <td colSpan={Object.keys(HEADERS).length}>
                     <strong>Components:</strong>
                     <ul>
                       {components?.length > 0 ? (

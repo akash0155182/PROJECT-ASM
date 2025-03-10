@@ -1,0 +1,25 @@
+.input-field {
+    margin-bottom: 10px;
+  }
+  
+  .input-field input,
+  .input-field textarea {
+    width: calc(100% - 16px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .input-field textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .input-field input:focus,
+  .input-field textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
