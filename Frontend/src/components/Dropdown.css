@@ -1,0 +1,27 @@
+.dropdown-container {
+    margin-bottom: 16px;
+  }
+  
+  .dropdown-container label {
+    display: block;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 6px;
+  }
+  
+  .dropdown-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f9f9f9;
+    color: #333;
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  .dropdown-container select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  

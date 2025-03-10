@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import './AssignComponent.css';
 import { useNavigate } from 'react-router-dom';
+import './AssignComponent.css';
 import { getAllAssets, assignComponentToAsset } from '../../api/assetApi';
 import { getAllComponents } from '../../api/componentApi';
 import { handleApiError } from '../../utils/helpers';
+import Dropdown from '../../components/Dropdown';
 
 const AssignComponent = () => {
   const [assets, setAssets] = useState([]);
@@ -14,23 +15,35 @@ const AssignComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchAssetsAndComponents = async () => {
+    const fetchData = async () => {
       try {
         const assetsData = await getAllAssets();
         const componentsData = await getAllComponents();
-        setAssets(assetsData);
-        setComponents(componentsData);
+
+        setAssets(
+          assetsData.map((asset) => ({
+            id: asset.id,
+            label: `${asset.name} (${asset.category})`,
+          }))
+        );
+
+        setComponents(
+          componentsData.map((component) => ({
+            id: component.id,
+            label: `${component.name} (${component.category}) - ${component.manufacturer} | Serial: ${component.serialNumber} | Warranty: ${component.warrantyEnd}`,
+          }))
+        );
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchAssetsAndComponents();
+    fetchData();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (!selectedAsset || !selectedComponent) {
       alert('Please select both an asset and a component.');
       return;
@@ -42,9 +55,7 @@ const AssignComponent = () => {
       setSelectedAsset('');
       setSelectedComponent('');
 
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000);
+      setTimeout(() => navigate('/dashboard'), 2000);
     } catch (error) {
       alert(handleApiError(error));
     }
@@ -54,25 +65,22 @@ const AssignComponent = () => {
     <div className="assign-component-container">
       <h2>Assign Component to Asset</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="selectAsset">Select Asset:</label>
-        <select id="selectAsset" value={selectedAsset} onChange={({ target: { value } }) => setSelectedAsset(value)} required>
-          <option value="">-- Select Asset --</option>
-          {assets.map(({ id, name, category }) => (
-            <option key={id} value={id}>
-              {name} ({category})
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor="selectComponent">Select Component:</label>
-        <select id="selectComponent" value={selectedComponent} onChange={({ target: { value } }) => setSelectedComponent(value)} required>
-          <option value="">-- Select Component --</option>
-          {components.map(({ id, name, category, manufacturer, serialNumber, warrantyEnd }) => (
-            <option key={id} value={id}>
-              {name} ({category}) - {manufacturer} | Serial: {serialNumber} | Warranty: {warrantyEnd}
-            </option>
-          ))}
-        </select>
+        <Dropdown
+          label="Select Asset"
+          value={selectedAsset}
+          onChange={(e) => setSelectedAsset(e.target.value)}
+          options={assets}
+          placeholder="-- Select Asset --"
+          required
+        />
+        <Dropdown
+          label="Select Component"
+          value={selectedComponent}
+          onChange={(e) => setSelectedComponent(e.target.value)}
+          options={components}
+          placeholder="-- Select Component --"
+          required
+        />
         <button type="submit">Assign Component</button>
       </form>
       {success && <p className="success-message">Component assigned successfully! Redirecting...</p>}
