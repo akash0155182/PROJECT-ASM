@@ -26,7 +26,6 @@ export const addAsset = async (assetData) => {
   }
 };
 
-
 export const getAssetById = async (id) => {
   try {
     const response = await api.get(`/api/asset?id=${id}`);
