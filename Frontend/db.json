@@ -1,0 +1,98 @@
+{
+    "assets": [
+      {
+        "id": 1,
+        "name": "Truck",
+        "category": "Vehicle",
+        "description": "Heavy load truck",
+        "purchaseDate": "2025-03-08T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "Miller"
+      },
+      {
+        "id": 2,
+        "name": "Bike",
+        "category": "Vehicle",
+        "description": "Good run",
+        "purchaseDate": "2025-03-21T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "Arun"
+      },
+      {
+        "id": 3,
+        "name": "Monster Truck",
+        "category": "Vehicle",
+        "description": "Off-road performance",
+        "purchaseDate": "2025-03-10T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "Akash"
+      },
+      {
+        "id": 4,
+        "name": "Mobile",
+        "category": "Electronics",
+        "description": "Smartphone",
+        "purchaseDate": "2025-03-12T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "Aman"
+      },
+      {
+        "id": 5,
+        "name": "Laptop",
+        "category": "Electronics",
+        "description": "Good performance",
+        "purchaseDate": "2025-03-10T00:00:00.000+00:00",
+        "status": "assigned",
+        "assignedTo": "Akash"
+      },
+      {
+        "id": 6,
+        "name": "Car",
+        "category": "Vehicle",
+        "description": "Smooth run",
+        "purchaseDate": "2025-03-19T00:00:00.000+00:00",
+        "status": "assigned",
+        "assignedTo": "Himanshu"
+      },
+      {
+        "id": 7,
+        "name": "Projector",
+        "category": "Electronics",
+        "description": "HD Projector",
+        "purchaseDate": "2025-03-06T00:00:00.000+00:00",
+        "status": "inactive",
+        "assignedTo": "Jane Smith"
+      },
+      {
+        "id": 8,
+        "name": "Harry Potter",
+        "category": "Book",
+        "description": "Good novel",
+        "purchaseDate": "2025-03-28T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "Dillip"
+      },
+      {
+        "id": 9,
+        "name": "Truck 2",
+        "category": "Vehicle",
+        "description": "Cargo truck",
+        "purchaseDate": "2025-03-15T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "John"
+      },
+      {
+        "id": 10,
+        "name": "Bike 2",
+        "category": "Vehicle",
+        "description": "Mountain bike",
+        "purchaseDate": "2025-03-22T00:00:00.000+00:00",
+        "status": "active",
+        "assignedTo": "Buni"
+      }
+    ],
+    "totalItems": 50,
+    "pageSize": 10,
+    "currentPage": 1
+  }
+  

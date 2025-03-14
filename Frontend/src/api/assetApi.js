@@ -9,6 +9,15 @@ export const getAllAssets = async () => {
   }
 };
 
+// export const loadAssets = async (page, pageSize) => {
+//   try{
+//   const response = await api.get(`/api/asset/all?page=${page}&size=${pageSize}`);
+//   return response.data; // Should return { items, totalItems, currentPage, pageSize }
+//   }catch (error){
+//     throw error;
+//   }
+// };
+
 export const addAsset = async (assetData) => {
   try {
     await api.post('/api/asset', assetData);
